@@ -25,23 +25,23 @@ class BankAccountTest {
     @Test
     void isEmailValidTest(){
         assertTrue(BankAccount.isEmailValid( "a@b.com"));   // valid email address
-        assertTrue(BankAccount.isEmailValid( "abc-d@mail.com"));
-        assertTrue(BankAccount.isEmailValid( "abc.def@mail.com"));
-        assertTrue(BankAccount.isEmailValid( "abc@mail.com"));
-        assertTrue(BankAccount.isEmailValid( "abc_def@mail.com"));
-        assertTrue(BankAccount.isEmailValid( "abc.def@mail.cc"));
-        assertTrue(BankAccount.isEmailValid( "abc.def@mail-archive.com"));
-        assertTrue(BankAccount.isEmailValid( "abc.def@mail.org"));
+        assertTrue(BankAccount.isEmailValid( "abc-d@mail.com")); //hyphen in the local part
+        assertTrue(BankAccount.isEmailValid( "abc.def@mail.com"));  //dot in the local part
+        assertTrue(BankAccount.isEmailValid( "abc@mail.com")); //no special characters, minimum length
+        assertTrue(BankAccount.isEmailValid( "abc_def@mail.com")); //hyphen
+        assertTrue(BankAccount.isEmailValid( "abc.def@mail.cc")); // minimmum domain length
+        assertTrue(BankAccount.isEmailValid( "abc.def@mail-archive.com")); // hyphen in domain
+        assertTrue(BankAccount.isEmailValid( "abc.def@mail.org")); // just a standard
 
-        assertFalse( BankAccount.isEmailValid(""));         // empty string
-        assertFalse(BankAccount.isEmailValid("abc-@mail.com"));
-        assertFalse(BankAccount.isEmailValid("abc#def@mail.com"));
-        assertFalse(BankAccount.isEmailValid(".abc@mail.com"));
-        assertFalse(BankAccount.isEmailValid("abc..def@mail.com"));
-        assertFalse(BankAccount.isEmailValid("abc.def@mail.c"));
-        assertFalse(BankAccount.isEmailValid("abc.def@mail#archive.com"));
-        assertFalse(BankAccount.isEmailValid("abc.def@mail"));
-        assertFalse(BankAccount.isEmailValid("abc.def@mail..com"));
+        assertFalse(BankAccount.isEmailValid(""));         // empty string
+        assertFalse(BankAccount.isEmailValid("abc-@mail.com")); // hyphen at the end of the local part
+        assertFalse(BankAccount.isEmailValid("abc#def@mail.com")); // special character
+        assertFalse(BankAccount.isEmailValid(".abc@mail.com")); // dot at the beginning of the local part
+        assertFalse(BankAccount.isEmailValid("abc..def@mail.com")); // double dot
+        assertFalse(BankAccount.isEmailValid("abc.def@mail.c")); //too short domain
+        assertFalse(BankAccount.isEmailValid("abc.def@mail#archive.com")); // special character in domain
+        assertFalse(BankAccount.isEmailValid("abc.def@mail")); // no domain
+        assertFalse(BankAccount.isEmailValid("abc.def@mail..com")); // double dot in domain
     }
 
     @Test
