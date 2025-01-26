@@ -12,6 +12,11 @@ class BankAccountTest {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
 
         assertEquals(200, bankAccount.getBalance(), 0.001);
+
+        assertEquals(0, (new BankAccount("a@b.com",0)).getBalance(), 0.001); // zero balance
+
+        assertThrows(IllegalArgumentException.class, () -> (new BankAccount("a@b.com", -100)).getBalance()); // negative balance
+        assertThrows(IllegalArgumentException.class, () -> (new BankAccount("a@b.com", 100.011)).getBalance()); // too many decimal places
     }
 
     @Test
