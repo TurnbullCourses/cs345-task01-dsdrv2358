@@ -30,7 +30,8 @@ class BankAccountTest {
         assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-100)); // negative amount
         assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(0)); // zero amount
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(100.01)); // border case too much money
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-.01)); // border case just barely negative
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-.01)); // border case just barely negative
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(5.001)); // Too many decimal places
 
         bankAccount.withdraw(100); // border case, exactly all the money
         assertEquals(0, bankAccount.getBalance(), 0.001);
@@ -71,6 +72,14 @@ class BankAccountTest {
         assertEquals(200, bankAccount.getBalance(), 0.001);
         //check for exception thrown correctly
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
+    
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("a@b.com",5.001)); // too many decimals
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("a@b.com",-.01)); // negative border case
+        
+        BankAccount bankAccount2 = new BankAccount("a@b.com", 0); // border case of zero balance
+        assertEquals("a@b.com", bankAccount2.getEmail());
+        assertEquals(0, bankAccount2.getBalance(), 0.001);
+
     }
 
     @Test
