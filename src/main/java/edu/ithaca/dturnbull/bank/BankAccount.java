@@ -11,10 +11,16 @@ public class BankAccount {
     public BankAccount(String email, double startingBalance){
         if (isEmailValid(email)){
             this.email = email;
-            this.balance = startingBalance;
         }
         else {
             throw new IllegalArgumentException("Email address: " + email + " is invalid, cannot create account");
+        }
+
+        if (isAmountValid(startingBalance)){
+            this.balance = startingBalance;
+        }
+        else{
+            throw new IllegalArgumentException("Balance cannot be negative or contain more than two decimal places");
         }
     }
 
@@ -39,6 +45,11 @@ public class BankAccount {
      * the balance itself, and the balance plus .01
      */
     public void withdraw (double amount) throws InsufficientFundsException{
+
+        if (!isAmountValid(amount) || amount == 0){
+            throw new IllegalArgumentException("Withdrawal cannot be negative or contain more than two decimal places");
+        }
+
         if (amount <= balance){
             balance -= amount;
         }

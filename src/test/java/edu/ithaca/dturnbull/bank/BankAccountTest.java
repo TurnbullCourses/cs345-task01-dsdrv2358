@@ -37,7 +37,7 @@ class BankAccountTest {
         assertEquals(0, bankAccount.getBalance(), 0.001);
 
         BankAccount bankAccount2 = new BankAccount("a@c.com", 200);
-        bankAccount.withdraw(.01); //border case, just enough money for a withdrawal
+        bankAccount2.withdraw(.01); //border case, just enough money for a withdrawal
     }
 
 
@@ -55,13 +55,16 @@ class BankAccountTest {
 
         assertFalse(BankAccount.isEmailValid(""));         // empty string
         assertFalse(BankAccount.isEmailValid("abc-@mail.com")); // hyphen at the end of the local part
-        assertFalse(BankAccount.isEmailValid("abc#def@mail.com")); // special character
+        assertFalse(BankAccount.isEmailValid("abc#def@mail.com")); // unallowed special character
         assertFalse(BankAccount.isEmailValid(".abc@mail.com")); // dot at the beginning of the local part
         assertFalse(BankAccount.isEmailValid("abc..def@mail.com")); // double dot
         assertFalse(BankAccount.isEmailValid("abc.def@mail.c")); //too short domain
         assertFalse(BankAccount.isEmailValid("abc.def@mail#archive.com")); // special character in domain
         assertFalse(BankAccount.isEmailValid("abc.def@mail")); // no domain
         assertFalse(BankAccount.isEmailValid("abc.def@mail..com")); // double dot in domain
+        assertFalse( BankAccount.isEmailValid("aaa"));   // no @ sign
+        assertFalse( BankAccount.isEmailValid("@a"));    // no character before @
+        assertFalse( BankAccount.isEmailValid("a@"));    // no character after @
     }
 
     @Test
