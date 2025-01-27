@@ -73,4 +73,14 @@ class BankAccountTest {
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
     }
 
+    @Test
+    void isAmountValidTest(){
+        assertTrue(BankAccount.isAmountValid(100.1)); // Postive balance with one decimal place
+        assertTrue(BankAccount.isAmountValid(100.01)); // Postive balance with two decimal places. Border case
+        assertTrue(BankAccount.isAmountValid(0)); // Not negative border case. I took the liberty to say that zero is a valid balance
+        assertFalse(BankAccount.isAmountValid(-100)); // Negative balance
+        assertFalse(BankAccount.isAmountValid(100.001)); // Too many decimal places. Could be considered a border case
+        assertFalse(BankAccount.isAmountValid(-.01)); // Negative border case
+    }
+
 }
