@@ -37,7 +37,9 @@ class BankAccountTest {
         assertEquals(0, bankAccount.getBalance(), 0.001);
 
         BankAccount bankAccount2 = new BankAccount("a@c.com", 200);
+
         bankAccount2.withdraw(.01); //border case, just enough money for a withdrawal
+        assertEquals(199.99, bankAccount2.getBalance(), 0.001);
     }
 
 
@@ -93,6 +95,23 @@ class BankAccountTest {
         assertFalse(BankAccount.isAmountValid(-100)); // Negative balance
         assertFalse(BankAccount.isAmountValid(100.001)); // Too many decimal places. Could be considered a border case
         assertFalse(BankAccount.isAmountValid(-.01)); // Negative border case
+    }
+
+    @Test
+    void depositTest(){
+        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-100)); // negative amount
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(0)); // zero amount
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-.01)); // border case just barely negative
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(5.001)); // Too many decimal places
+
+        bankAccount.deposit(100); // Just a standard deposit
+
+        assertEquals(300, bankAccount.getBalance(), 0.001);
+
+        bankAccount.deposit(.01); // Minimum deposit border case
+        assertEquals(300.01, bankAccount.getBalance(), 0.001);
     }
 
 }

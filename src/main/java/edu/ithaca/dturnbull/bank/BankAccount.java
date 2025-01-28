@@ -84,6 +84,8 @@ public class BankAccount {
         }
     }
 
-
+    public void deposit(double amount){
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
     
 }
