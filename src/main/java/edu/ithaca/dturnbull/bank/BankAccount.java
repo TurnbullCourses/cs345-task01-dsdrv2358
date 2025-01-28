@@ -94,4 +94,10 @@ public class BankAccount {
         }
     }
     
+    //Transfer money from this account to a different account. Cannot transfer more money than is in the account,
+    //and the amount must be positive and have at most two decimal places. Also, the other account must be valid
+
+    public void transfer(BankAccount other, double amount) throws InsufficientFundsException{
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 }
