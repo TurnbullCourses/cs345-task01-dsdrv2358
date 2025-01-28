@@ -85,7 +85,12 @@ public class BankAccount {
     }
 
     public void deposit(double amount){
-        throw new UnsupportedOperationException("Not yet implemented");
+        if (isAmountValid(amount) && amount != 0){
+            balance += amount;
+        }
+        else{
+            throw new IllegalArgumentException("Deposit cannot be zero, negative, or contain more than two decimal places");
+        }
     }
     
 }
