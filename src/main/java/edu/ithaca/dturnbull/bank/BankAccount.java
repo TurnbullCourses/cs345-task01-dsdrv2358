@@ -84,6 +84,7 @@ public class BankAccount {
         }
     }
 
+    //Deposit money into the account with a number that is at most two decimal places. Zeros and negatives are illegal
     public void deposit(double amount){
         if (isAmountValid(amount) && amount != 0){
             balance += amount;
