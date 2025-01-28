@@ -99,6 +99,20 @@ public class BankAccount {
     // a different account from this one
 
     public void transfer(BankAccount other, double amount) throws InsufficientFundsException{
-        throw new UnsupportedOperationException("Not yet implemented");
+        if (other == this){
+            throw new IllegalArgumentException("Cannot transfer money to the same account");
+        }
+
+        if (!isAmountValid(amount) || amount == 0){
+            throw new IllegalArgumentException("Transfer amount cannot be negative or contain more than two decimal places");
+        }
+
+        if (amount <= balance){
+            balance -= amount;
+            other.deposit(amount);
+        }
+        else{
+            throw new InsufficientFundsException("Not enough money");
+        }
     }
 }
