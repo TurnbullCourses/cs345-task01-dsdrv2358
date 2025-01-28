@@ -114,4 +114,41 @@ class BankAccountTest {
         assertEquals(300.01, bankAccount.getBalance(), 0.001);
     }
 
+    @Test
+    void transferTest() throws InsufficientFundsException {
+        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        BankAccount bankAccount2 = new BankAccount("b@c.com", 200);
+
+        bankAccount.transfer(bankAccount2, 100); // Just a standard transfer
+
+        assertEquals(100, bankAccount.getBalance(), 0.001);
+        assertEquals(300, bankAccount2.getBalance(), 0.001);
+
+        bankAccount2.transfer(bankAccount, 300); //Maximum border case transfer
+        assertEquals(400, bankAccount.getBalance(), 0.001);
+        assertEquals(0, bankAccount2.getBalance(), 0.001);
+        
+        bankAccount.transfer(bankAccount2,.01); // Minimum border case transfer
+        assertEquals(bankAccount.getBalance(), 399.99, 0.001);
+        assertEquals(bankAccount2.getBalance(), .01, 0.001);
+
+        // Not enough money
+        assertThrows(InsufficientFundsException.class,() -> bankAccount2.transfer(bankAccount, 1)); 
+    
+        //Border case, not enough money
+        assertThrows(InsufficientFundsException.class,() -> bankAccount2.transfer(bankAccount, .02));
+    
+        //zero amount
+        assertThrows(IllegalArgumentException.class,() -> bankAccount2.transfer(bankAccount, 0));
+
+        //negative amount
+        assertThrows(IllegalArgumentException.class,() -> bankAccount2.transfer(bankAccount, -1));
+
+        //border case negative amount
+        assertThrows(IllegalArgumentException.class,() -> bankAccount2.transfer(bankAccount, -.01));
+
+        //border case too many decimal places
+        assertThrows(IllegalArgumentException.class,() -> bankAccount2.transfer(bankAccount, 5.001));
+    }
+
 }
